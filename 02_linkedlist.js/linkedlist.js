@@ -2,67 +2,62 @@ function LinkedList(){
   this.head=null;
   this.tail=null;
 }
-function Node(text){
-  this.value = text;
-  this.next = null;
+
+function Node (data){
+  this.value = data;
+  this.next = null; 
   this.previous = null;
 }
-LinkedList.prototype.addToTail=function(val){
-  if(this.tail === null){
-    var aux = new Node(val);
-    this.tail = aux;
-    this.head = aux;
-  } else{
-      var temp = this.tail;
-      this.tail = new Node(val);
-      this.tail.previous = temp;
-      temp.next = this.tail;
-  }
-}
-LinkedList.prototype.addToHead=function(val){
-  if(this.head === null){
-      var aux = new Node(val);
-      this.tail = aux;
-      this.head = aux;
-  } else{
-      var temp = this.head;
-      this.head = new Node(val);
-      this.head.next = temp;
-      temp.previous=this.head;
-  }
-}
-LinkedList.prototype.removeTail=function(){
-  if(this.tail=== null) return null;
-  if(this.tail.previous===null){
-    var aux = this.tail.value 
-    this.head = null;
-    this.tail = null;
-    return aux;
+
+LinkedList.prototype.addToTail = function (value){
+  let newTail = new Node(value);
+  newTail.previous = this.tail;
+  newTail.next = null;
+  if(this.tail){
+      this.tail.next = newTail
   } else {
-    var aux=this.tail
-    this.tail=this.tail.previous;
-    this.tail.next = null;
-    return aux.value
+      this.head = newTail;
   }
+  this.tail = newTail;
+}
+LinkedList.prototype.addToHead=function(value){
+  let newHead = new Node(value);
+  newHead.previous = null;
+  newHead.next = this.head;
+  if(this.head){
+      this.head.previous = newHead
+  } else {
+      this.tail = newHead;
+  }
+  this.head = newHead;
 }
 
-LinkedList.prototype.removeHead=function(){
-  if(this.head=== null) return null;
-  if(this.head.next===null){
-    var aux = this.head.value 
-    this.head = null;
-    this.tail = null;
-    return aux;
+LinkedList.prototype.removeHead = function (value){
+  if(!this.head)return;
+  let oldHead = this.head.value;
+  this.head = this.head.next;
+  if(this.head){
+      this.head.previous = null;
   } else {
-    var aux = this.head
-    this.head = this.head.next;
-    this.head.previous = null;
-    return aux.value
+      this.tail = null;
   }
+  return oldHead;
+}
+
+LinkedList.prototype.removeTail=function(){
+  if(!this.tail)return;
+  let oldTail= this.tail.value
+  this.tail = this.tail.previous;
+  if(this.tail){
+      this.tail.next = null;
+  } else {
+      this.head = null;
+  }
+  return oldTail;
 }
 
 LinkedList.prototype.search=function(element){
-  var aux = this.head;
+  let aux = this.head;
   if(this.head === null){
     return null;
   }
